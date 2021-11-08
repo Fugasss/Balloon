@@ -2,10 +2,10 @@
 
 public class Clicker : MonoBehaviour
 {
-    [SerializeField, Min(1)] private int m_Damage;
-    
+    [SerializeField] [Min(1)] private int m_Damage;
+
     private Camera m_Camera;
-    
+
     private void Awake()
     {
         m_Camera = Camera.main;
@@ -13,14 +13,11 @@ public class Clicker : MonoBehaviour
 
     private void Update()
     {
-        if(Game.IsPaused) return;
-        if(!Game.IsPlaying) return;
+        if (Game.IsPaused) return;
+        if (!Game.IsPlaying) return;
         if (!Input.GetMouseButtonDown(0)) return;
 
-        if (TryHit(out var damageable))
-        {
-            damageable.TakeDamage(m_Damage);
-        }
+        if (TryHit(out var damageable)) damageable.TakeDamage(m_Damage);
     }
 
     private bool TryHit(out IDamageable damageable)

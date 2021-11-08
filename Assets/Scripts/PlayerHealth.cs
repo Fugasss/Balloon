@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public int Health { get; private set; }
-
-    [SerializeField, Min(1)] private int m_Health;
+    [SerializeField] [Min(1)] private int m_Health;
 
     [SerializeField] private Text m_HealthText;
 
@@ -31,6 +28,24 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Balloon.OutOfBounds -= TakeDamage;
     }
 
+    public int Health { get; private set; }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+
+        m_HealthText.text = (Health < 0 ? 0 : Health).ToString();
+
+        if (Health > 0) return;
+
+        Die();
+    }
+
+    public void Die()
+    {
+        Game.End();
+    }
+
     private void GameOnStarted()
     {
         m_HealthText.gameObject.SetActive(true);
@@ -41,17 +56,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         m_HealthText.gameObject.SetActive(false);
     }
 
-    public void TakeDamage(int damage)
+    private void TakeDamage(Balloon balloon)
     {
-        Health -= damage;
-
-        m_HealthText.text = (Health < 0 ? 0 : Health).ToString();
-
-        if (Health <= 0)
-        {
-            Game.End();
-        }
+        TakeDamage(balloon.Health);
     }
-
-    private void TakeDamage(Balloon balloon) => TakeDamage(balloon.Health);
 }

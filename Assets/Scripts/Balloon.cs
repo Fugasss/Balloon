@@ -6,16 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Balloon : MonoBehaviour, IDamageable
 {
-    public new static event Action<Balloon> Destroy = delegate { };
-    public static event Action<Balloon> OutOfBounds = delegate { };
-    public int Health { get; private set; }
-    public int MaxHealth { get; private set; }
-
-    private float m_FallSpeed;
+    [SerializeField] private BalloonDestroyEffect m_DestroyEffect;
     private Color m_Color;
 
+    private float m_FallSpeed;
+
     private SpriteRenderer m_SpriteRenderer;
-    [SerializeField] private BalloonDestroyEffect m_DestroyEffect;
+    public int MaxHealth { get; private set; }
 
     public static ObjectPool<BalloonDestroyEffect> ParticlesPool { get; private set; }
 
@@ -26,15 +23,16 @@ public class Balloon : MonoBehaviour, IDamageable
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Initialize(int health, float fallSpeed, Color color)
+    private void Update()
     {
-        m_FallSpeed = fallSpeed;
-        Health = health;
-        MaxHealth = health;
-        m_Color = color;
+        if (Game.IsPaused) return;
 
-        m_SpriteRenderer.color = color;
+        Move();
+
+        CheckOutOfBounds();
     }
+
+    public int Health { get; private set; }
 
     public void TakeDamage(int damage)
     {
@@ -44,19 +42,31 @@ public class Balloon : MonoBehaviour, IDamageable
 
         if (Health > 0) return;
 
-        var effect = ParticlesPool.GetAvailable();
-        effect.transform.position = transform.position;
-        effect.ParticleSystem.SetMainColor(m_Color);
-        effect.Play();
+        Die();
 
         Destroy?.Invoke(this);
     }
 
-    private void Update()
+    public void Die()
     {
-        Move();
+        var effect = ParticlesPool.GetAvailable();
+        effect.transform.position = transform.position;
+        effect.ParticleSystem.SetMainColor(m_Color);
+        effect.Play();
+    }
 
-        CheckOutOfBounds();
+    public new static event Action<Balloon> Destroy = delegate { };
+    public static event Action<Balloon> OutOfBounds = delegate { };
+
+
+    public void Initialize(int health, float fallSpeed, Color color)
+    {
+        m_FallSpeed = fallSpeed;
+        Health = health;
+        MaxHealth = health;
+        m_Color = color;
+
+        m_SpriteRenderer.color = color;
     }
 
     private void Move()
@@ -70,5 +80,11 @@ public class Balloon : MonoBehaviour, IDamageable
         if (!Map.IsOutOfBounds(transform)) return;
 
         OutOfBounds?.Invoke(this);
+    }
+
+
+    public int GetScore()
+    {
+        return Mathf.CeilToInt((Game.TimeFromStart + Health + m_FallSpeed) * 0.2f);
     }
 }

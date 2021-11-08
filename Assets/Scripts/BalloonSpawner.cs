@@ -1,22 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class BalloonSpawner : MonoBehaviour
 {
     [SerializeField] private Balloon m_BalloonPrefab;
 
-    [Space(15)] 
-    
-    [SerializeField] private AnimationCurve m_SpawnTimeCurve;
+    [Space(15)] [SerializeField] private AnimationCurve m_SpawnTimeCurve;
+
     [SerializeField] private AnimationCurve m_HealthCurve;
     [SerializeField] private AnimationCurve m_FallSpeedCurve;
-    
-    private Coroutine m_SpawnRoutine;
     private ObjectPool<Balloon> m_BalloonsPool;
     private Camera m_Camera;
 
     private int m_MaxHealth;
+
+    private Coroutine m_SpawnRoutine;
 
     private void Awake()
     {
@@ -25,24 +23,21 @@ public class BalloonSpawner : MonoBehaviour
 
         var healthCurveMaxTime = m_HealthCurve.keys[m_HealthCurve.length - 1].time;
         m_MaxHealth = Mathf.RoundToInt(m_HealthCurve.Evaluate(healthCurveMaxTime));
-        
     }
 
     private void OnEnable()
     {
         Game.Started += GameOnStarted;
         Game.Ended += GameOnEnded;
-        Game.Paused += GameOnPause;
 
         Balloon.OutOfBounds += BalloonOnOutOfBounds;
         Balloon.Destroy += ReturnInPool;
-
     }
+
     private void OnDisable()
     {
         Game.Started -= GameOnStarted;
         Game.Ended -= GameOnEnded;
-        Game.Paused -= GameOnPause;
 
         Balloon.OutOfBounds -= BalloonOnOutOfBounds;
         Balloon.Destroy -= ReturnInPool;
@@ -52,19 +47,16 @@ public class BalloonSpawner : MonoBehaviour
     {
         m_BalloonsPool.ReturnInPool(obj);
     }
-    
+
     private void GameOnStarted()
     {
         m_SpawnRoutine = StartCoroutine(SpawnBalloon());
     }
-    private void GameOnPause(bool paused)
-    {
-        if (paused) GameOnEnded();
-        else GameOnStarted();
-    }
+
     private void GameOnEnded()
     {
         StopCoroutine(m_SpawnRoutine);
+        m_BalloonsPool.ReturnAll(balloon => balloon.Die());
     }
 
     private float CalculateSpawnTime(float time)
@@ -75,6 +67,7 @@ public class BalloonSpawner : MonoBehaviour
         //
         // return Mathf.Clamp(m_DefaultSpawnTime - x, m_MinSpawnTime, float.MaxValue);
     }
+
     private int CalculateHealth(float time)
     {
         return Mathf.CeilToInt(m_HealthCurve.Evaluate(time) * Random.value);
@@ -83,12 +76,14 @@ public class BalloonSpawner : MonoBehaviour
         //
         // return Mathf.RoundToInt(fx);
     }
+
     private float CalculateSpeed(float time, float random)
     {
         return m_FallSpeedCurve.Evaluate(time) * random;
 
         //return (time * time / 20 + 1) * random;
     }
+
     private Color CalculateColor(int health)
     {
         var h = Random.Range(0, 360);

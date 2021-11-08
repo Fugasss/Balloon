@@ -2,10 +2,9 @@
 
 public static class Map
 {
+    private static Camera m_Camera;
     public static Vector2 UpperBound { get; private set; }
     public static Vector2 RightBound { get; private set; }
-
-    private static Camera m_Camera;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Awake()

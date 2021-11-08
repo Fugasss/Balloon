@@ -12,19 +12,20 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/PauseUI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Map.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/ParticleSystemExtension.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/StartUI.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Game.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/BalloonClicker.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/BalloonSpawner.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/ObjectPool.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/BallonDestroyEffect.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/BalloonDestroyEffect.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Clicker.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Balloon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/IDamageable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/PlayerHealth.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ObjectPool.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Game.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/BalloonSpawner.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Balloon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/PauseUI.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Scoreboard.cs" />
     </changedPaths>
   </component>
@@ -75,6 +76,7 @@
       <workItem from="1636043160060" duration="11621000" />
       <workItem from="1636087682418" duration="10157000" />
       <workItem from="1636108026270" duration="4350000" />
+      <workItem from="1636357273429" duration="10565000" />
     </task>
     <servers />
   </component>
