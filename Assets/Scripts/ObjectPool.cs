@@ -7,17 +7,21 @@ public class ObjectPool<T> where T : Component
 {
     private readonly List<T> m_Objects;
     private readonly Transform m_ParentObject;
-    private readonly T m_Prefab;
+    private readonly T[] m_Prefabs;
 
     private int m_LastIndex = -1;
 
-    public ObjectPool(T prefab, int count)
+    public ObjectPool(T[] prefabs, int count)
     {
-        m_Prefab = prefab;
+        m_Prefabs = prefabs;
         m_Objects = new List<T>(count);
         m_ParentObject = new GameObject(typeof(T).ToString()).transform;
 
         Fill(count);
+    }
+
+    public ObjectPool(T prefab, int count) : this(new[] {prefab}, count)
+    {
     }
 
     private void Fill(int count)
@@ -27,7 +31,7 @@ public class ObjectPool<T> where T : Component
 
     private T CreateNew()
     {
-        var instance = Object.Instantiate(m_Prefab, m_ParentObject);
+        var instance = Object.Instantiate(m_Prefabs.GetRandom(), m_ParentObject);
         instance.gameObject.SetActive(false);
 
         m_Objects.Add(instance);

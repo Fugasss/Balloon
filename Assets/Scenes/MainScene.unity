@@ -288,8 +288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad85356f31c47c28a948fc2d18a162c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BalloonPrefab: {fileID: 8777688214490404768, guid: 4f1188d86267c0a44bda38cd0cf46159, type: 3}
-  m_SpawnTimeCurve:
+  m_Prefabs:
+  - {fileID: 8777688214490404768, guid: 4f1188d86267c0a44bda38cd0cf46159, type: 3}
+  SpawnTimeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -331,7 +332,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_HealthCurve:
+  HealthCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -355,7 +356,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_FallSpeedCurve:
+  FallSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1070,6 +1071,132 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Health: 10
   m_HealthText: {fileID: 1290182777}
+--- !u!1 &972576363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972576365}
+  - component: {fileID: 972576364}
+  m_Layer: 0
+  m_Name: Bonus Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &972576364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972576363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cfe8b37aae4139b7de0249dd6e0a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Prefabs:
+  - {fileID: 9142802219723610969, guid: 7168e2ea43d7a1c4b99acddb2c4328c2, type: 3}
+  SpawnTimeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 7
+      inSlope: 0.009674715
+      outSlope: 0.009674715
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.085391544
+    - serializedVersion: 3
+      time: 13.303022
+      value: 5
+      inSlope: -0.0074119978
+      outSlope: -0.0074119978
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.071306914
+    - serializedVersion: 3
+      time: 30
+      value: 3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  HealthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 16
+      value: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FallSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 4
+      inSlope: 0.12483535
+      outSlope: 0.12483535
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02949518
+    - serializedVersion: 3
+      time: 45
+      value: 9
+      inSlope: 0.37570703
+      outSlope: 0.37570703
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.033286624
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &972576365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972576363}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &982555531
 GameObject:
   m_ObjectHideFlags: 0

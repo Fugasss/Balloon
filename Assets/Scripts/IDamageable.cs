@@ -1,6 +1,6 @@
 ﻿internal interface IDamageable
 {
-    public int Health { get; }
+    public int CurrentHealth { get; }
 
     public void TakeDamage(int damage);
 
