@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d988b09ea974272ba43c734cc8cf1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 10
+  m_DefaultHealth: 10
   m_HealthText: {fileID: 1290182777}
 --- !u!1 &972576363
 GameObject:
@@ -1102,6 +1102,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Prefabs:
   - {fileID: 9142802219723610969, guid: 7168e2ea43d7a1c4b99acddb2c4328c2, type: 3}
+  - {fileID: 106786699831693416, guid: 61d63235400700b41a2f98d1fa784a86, type: 3}
+  - {fileID: 1058176786650414883, guid: b59cfdac4f2804f409f976fc814c7cc7, type: 3}
   SpawnTimeCurve:
     serializedVersion: 2
     m_Curve:

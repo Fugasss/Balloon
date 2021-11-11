@@ -19,6 +19,6 @@ public class BonusSpawner : Spawner<BonusBase>
 
     protected override Color CalculateColor(int health)
     {
-        return Color.HSVToRGB(0,Mathf.Clamp((float)health / MaxHealth,0.3f,0.8f) ,0);
+        return Color.white;
     }
 }

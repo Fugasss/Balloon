@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField, Min(1)]  private int m_Health;
+    [SerializeField, Min(1)]  private int m_DefaultHealth;
 
     [SerializeField] private Text m_HealthText;
     
@@ -39,9 +39,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Die();
     }
 
-    public void TakeHeal(int health)
+    public void AddHealth(int health)
     {
-        m_Health += Mathf.Abs(health);
+        CurrentHealth += Mathf.Abs(health);
+        UpdateHealthText();
     }
 
     public void Die()
@@ -52,7 +53,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void GameOnStarted()
     {
         m_HealthText.gameObject.SetActive(true);
-        SetHealth();
+        SetDefaultHealth();
     }
 
     private void GameOnEnded()
@@ -64,9 +65,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         TakeDamage(balloon.CurrentHealth);
     }
-    private void SetHealth()
+    private void SetDefaultHealth()
     {
-        CurrentHealth = m_Health;
+        CurrentHealth = m_DefaultHealth;
+        UpdateHealthText();
+    }
+
+    private void UpdateHealthText()
+    {
         m_HealthText.text = CurrentHealth.ToString();
+
     }
 }

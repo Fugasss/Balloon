@@ -60,13 +60,20 @@ public abstract class FallingObjectBase : MonoBehaviour, IDamageable
 
         transform.DOPunchScale(Vector3.one * 0.5f, 0.1f, 15, 0.5f);
 
-        if (CurrentHealth > 0) return;
-
-        Die();
-        AfterDie();
+        if (CurrentHealth <= 0)
+        {
+            Die();
+            AfterDie();
+        }
     }
 
-    public abstract void Die();
+    public virtual void Die()
+    {
+        var effect = Balloon.ParticlesPool.GetAvailable();
+        effect.transform.position = transform.position;
+        effect.ParticleSystem.SetMainColor(Color);
+        effect.Play();
+    }
     protected virtual void AfterDie(){}
     protected abstract void OnOutOfBounds();
     public abstract int GetScore();

@@ -34,4 +34,9 @@ public class Clicker : MonoBehaviour
         damageable = null;
         return false;
     }
+
+    public void AddDamage(int damage)
+    {
+        m_Damage += Mathf.Abs(damage);
+    }
 }

@@ -3,7 +3,7 @@
 public abstract class BonusBase : FallingObjectBase
 {
     public static event Action<BonusBase> OutOfBounds = delegate { };
-    public static event Action<BonusBase> Destroy = delegate { };
+    public new static event Action<BonusBase> Destroy = delegate { };
     public abstract void Use();
     
     protected override void OnOutOfBounds()

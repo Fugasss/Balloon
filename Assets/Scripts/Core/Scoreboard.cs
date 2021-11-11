@@ -39,10 +39,10 @@ public class Scoreboard : MonoBehaviour
 
     private void GameOnEnded()
     {
-        SetScoresTexts();
-
         if (CurrentResult > BestResult)
             PlayerPrefs.SetInt(nameof(BestResult), CurrentResult);
+
+        SetScoresTexts();
     }
 
     private void AddScore(Balloon balloon)
@@ -54,9 +54,10 @@ public class Scoreboard : MonoBehaviour
 
         var textTransform = m_CurrentScoreText.transform;
 
-        if(DOTween.IsTweening(textTransform)) return;
-        
-        textTransform.DOPunchRotation(Vector3.forward * (12f * Random.Range(-1f, 1f)), 0.1f, CurrentResult / 10);
+        if (DOTween.IsTweening(textTransform)) return;
+
+        textTransform.DOPunchRotation(Vector3.forward * (12f * Random.Range(-1f, 1f)), 0.1f,
+            Mathf.Clamp(CurrentResult / 10, 0, 10));
         textTransform.DOPunchScale(Vector3.one * (0.1f * Mathf.Clamp(CurrentResult * 0.02f, 0, 5)), 0.2f,
             CurrentResult / 10);
     }

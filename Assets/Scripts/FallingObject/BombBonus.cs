@@ -5,14 +5,6 @@ public class BombBonus : BonusBase
 {
     private float m_ExplodeRadius;
 
-    public override void Die()
-    {
-        var effect = Balloon.ParticlesPool.GetAvailable();
-        effect.transform.position = transform.position;
-        effect.ParticleSystem.SetMainColor(Color);
-        effect.Play();
-    }
-
     protected override void AfterDie()
     {
         base.AfterDie();
