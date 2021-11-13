@@ -5,6 +5,15 @@ public class BombBonus : BonusBase
 {
     private float m_ExplodeRadius;
 
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawWireSphere(transform.position, m_ExplodeRadius);
+    }
+#endif
+
     protected override void AfterDie()
     {
         base.AfterDie();
@@ -29,17 +38,6 @@ public class BombBonus : BonusBase
         if (results.Length <= 0) return;
 
         foreach (var balloon in results.Select(x => x.GetComponent<Balloon>()))
-        {
             balloon.TakeDamage(balloon.CurrentHealth);
-        }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-
-        Gizmos.DrawWireSphere(transform.position, m_ExplodeRadius);
-    }
-#endif
 }

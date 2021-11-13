@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class Spawner<T> : MonoBehaviour, IObjectPoolContainer<T> where T : FallingObjectBase
 {
@@ -11,14 +10,13 @@ public abstract class Spawner<T> : MonoBehaviour, IObjectPoolContainer<T> where 
     [SerializeField] protected AnimationCurve FallSpeedCurve;
 
     private Coroutine m_SpawnRoutine;
-    public ObjectPool<T> ObjectPool { get; private set; }
-    
+
     protected int MaxHealth { get; private set; }
 
     protected virtual void Awake()
     {
         ObjectPool = new ObjectPool<T>(m_Prefabs, 20);
-        
+
         var healthCurveMaxTime = HealthCurve.keys[HealthCurve.length - 1].time;
         MaxHealth = Mathf.RoundToInt(HealthCurve.Evaluate(healthCurveMaxTime));
     }
@@ -34,6 +32,8 @@ public abstract class Spawner<T> : MonoBehaviour, IObjectPoolContainer<T> where 
         Game.Started -= GameOnStarted;
         Game.Ended -= GameOnEnded;
     }
+
+    public ObjectPool<T> ObjectPool { get; private set; }
 
     private void GameOnStarted()
     {
@@ -63,7 +63,7 @@ public abstract class Spawner<T> : MonoBehaviour, IObjectPoolContainer<T> where 
     }
 
     protected abstract Color CalculateColor(int health);
-    
+
     protected void ReturnInPool(T obj)
     {
         ObjectPool.ReturnInPool(obj);

@@ -1,11 +1,11 @@
 public class BonusHealth : BonusBase
 {
     private PlayerHealth m_Health;
-    
+
     protected override void Awake()
     {
         base.Awake();
-        
+
         m_Health ??= FindObjectOfType<PlayerHealth>();
     }
 

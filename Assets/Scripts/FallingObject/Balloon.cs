@@ -7,15 +7,15 @@ public class Balloon : FallingObjectBase
 
     public static ObjectPool<BalloonDestroyEffect> ParticlesPool { get; private set; }
 
-    public new static event Action<Balloon> Destroy = delegate { };
-    public static event Action<Balloon> OutOfBounds = delegate { };
-
     protected override void Awake()
     {
         base.Awake();
 
         ParticlesPool ??= new ObjectPool<BalloonDestroyEffect>(m_DestroyEffect, 20);
     }
+
+    public new static event Action<Balloon> Destroy = delegate { };
+    public static event Action<Balloon> OutOfBounds = delegate { };
 
     public override void Die()
     {
@@ -27,6 +27,8 @@ public class Balloon : FallingObjectBase
 
     protected override void AfterDie()
     {
+        base.AfterDie();
+        
         Destroy?.Invoke(this);
     }
 

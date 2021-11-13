@@ -12,7 +12,7 @@ public class BonusSpawner : Spawner<BonusBase>
     protected override void OnDisable()
     {
         base.OnDisable();
-        
+
         BonusBase.OutOfBounds -= ReturnInPool;
         BonusBase.Destroy -= ReturnInPool;
     }

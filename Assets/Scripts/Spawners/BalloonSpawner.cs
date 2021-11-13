@@ -3,19 +3,19 @@
 public class BalloonSpawner : Spawner<Balloon>
 {
     private Camera m_Camera;
-    
+
 
     protected override void Awake()
     {
         base.Awake();
-        
+
         m_Camera = Camera.main;
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-  
+
         Balloon.OutOfBounds += ReturnInPool;
         Balloon.Destroy += ReturnInPool;
     }
@@ -27,8 +27,8 @@ public class BalloonSpawner : Spawner<Balloon>
         Balloon.OutOfBounds -= ReturnInPool;
         Balloon.Destroy -= ReturnInPool;
     }
-    
-    
+
+
     protected override Color CalculateColor(int health)
     {
         var h = Random.Range(0, 360);

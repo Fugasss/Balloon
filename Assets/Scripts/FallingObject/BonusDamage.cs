@@ -1,21 +1,19 @@
-using System;
-
 public class BonusDamage : BonusBase
 {
     private Clicker m_Clicker;
-
-    protected override void AfterDie()
-    {
-        base.AfterDie();
-        
-        Use();
-    }
 
     protected override void Awake()
     {
         base.Awake();
 
         m_Clicker ??= FindObjectOfType<Clicker>();
+    }
+
+    protected override void AfterDie()
+    {
+        base.AfterDie();
+
+        Use();
     }
 
     public override int GetScore()

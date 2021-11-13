@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -9,8 +8,6 @@ public abstract class FallingObjectBase : MonoBehaviour, IDamageable
     protected Color Color;
     protected float FallSpeed;
     protected SpriteRenderer SpriteRenderer;
-    
-    public int CurrentHealth { get; private set; }
 
     protected int MaxHealth { get; private set; }
 
@@ -27,6 +24,36 @@ public abstract class FallingObjectBase : MonoBehaviour, IDamageable
         CheckOutOfBounds();
     }
 
+    public int CurrentHealth { get; private set; }
+
+    public virtual void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+
+        transform.DOPunchScale(Vector3.one * 0.5f, 0.1f, 15, 0.5f);
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+            AfterDie();
+            
+            AudioPlayer.Play("pop");
+
+        }
+        else
+        {
+            AudioPlayer.Play("hit");
+        }
+    }
+
+    public virtual void Die()
+    {
+        var effect = Balloon.ParticlesPool.GetAvailable();
+        effect.transform.position = transform.position;
+        effect.ParticleSystem.SetMainColor(Color);
+        effect.Play();
+    }
+
     public void Initialize(int health, float fallSpeed, Color color)
     {
         FallSpeed = fallSpeed;
@@ -38,8 +65,10 @@ public abstract class FallingObjectBase : MonoBehaviour, IDamageable
 
         AfterInitialize();
     }
-    
-    public virtual void AfterInitialize(){}
+
+    public virtual void AfterInitialize()
+    {
+    }
 
     private void Move()
     {
@@ -54,27 +83,10 @@ public abstract class FallingObjectBase : MonoBehaviour, IDamageable
         OnOutOfBounds();
     }
 
-    public virtual void TakeDamage(int damage)
+    protected virtual void AfterDie()
     {
-        CurrentHealth -= damage;
-
-        transform.DOPunchScale(Vector3.one * 0.5f, 0.1f, 15, 0.5f);
-
-        if (CurrentHealth <= 0)
-        {
-            Die();
-            AfterDie();
-        }
     }
 
-    public virtual void Die()
-    {
-        var effect = Balloon.ParticlesPool.GetAvailable();
-        effect.transform.position = transform.position;
-        effect.ParticleSystem.SetMainColor(Color);
-        effect.Play();
-    }
-    protected virtual void AfterDie(){}
     protected abstract void OnOutOfBounds();
     public abstract int GetScore();
 }
