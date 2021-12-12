@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 
-public static class Map
+namespace Core
 {
-    private static Camera m_Camera;
-    public static Vector2 UpperBound { get; private set; }
-    public static Vector2 RightBound { get; private set; }
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    private static void Awake()
+    public static class Map
     {
-        m_Camera = Camera.main;
+        private static Camera m_Camera;
+        public static Vector2 UpperBound { get; private set; }
+        public static Vector2 RightBound { get; private set; }
 
-        UpperBound = m_Camera.ScreenToWorldPoint(new Vector2(m_Camera.pixelWidth / 2, m_Camera.pixelHeight + 50));
-        RightBound = m_Camera.ScreenToWorldPoint(new Vector2(m_Camera.pixelWidth - 20, m_Camera.pixelHeight / 2));
-    }
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void Awake()
+        {
+            m_Camera = Camera.main;
 
-    public static bool IsOutOfBounds(Transform obj)
-    {
-        return obj.position.y <= -UpperBound.y;
-    }
+            UpperBound = m_Camera.ScreenToWorldPoint(new Vector2(m_Camera.pixelWidth / 2, m_Camera.pixelHeight + 50));
+            RightBound = m_Camera.ScreenToWorldPoint(new Vector2(m_Camera.pixelWidth - 20, m_Camera.pixelHeight / 2));
+        }
 
-    public static Vector2 GetRandomUpperPosition()
-    {
-        return UpperBound + RightBound * Random.Range(-1f, 1f);
+        public static bool IsOutOfBounds(Transform obj)
+        {
+            return obj.position.y <= -UpperBound.y;
+        }
+
+        public static Vector2 GetRandomUpperPosition()
+        {
+            return UpperBound + RightBound * Random.Range(-1f, 1f);
+        }
     }
 }

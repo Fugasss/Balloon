@@ -1,28 +1,34 @@
-public class BonusHealth : BonusBase
+using Core;
+using Player;
+using UnityEngine;
+
+namespace FallingObject
 {
-    private PlayerHealth m_Health;
-
-    protected override void Awake()
+    public class BonusHealth : BonusBase
     {
-        base.Awake();
+        private PlayerHealth m_Health;
+        private int m_LastTakenDamage;
+        
+        internal void Construct(PlayerHealth playerHealth)
+        {
+            m_Health = playerHealth;
+        }
 
-        m_Health ??= FindObjectOfType<PlayerHealth>();
-    }
+        public override int GetScore()
+        {
+            return MaxHealth / 10;
+        }
 
-    public override int GetScore()
-    {
-        return MaxHealth / 10;
-    }
+        public override void Use()
+        {
+            m_Health.AddHealth(Mathf.Clamp(m_LastTakenDamage,0, MaxHealth));
+        }
 
-    public override void Use()
-    {
-        m_Health.AddHealth(1);
-    }
-
-    public override void TakeDamage(int damage)
-    {
-        base.TakeDamage(damage);
-
-        Use();
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            m_LastTakenDamage = damage;
+            Use();
+        }
     }
 }

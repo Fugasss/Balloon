@@ -1,42 +1,56 @@
 ﻿using UnityEngine;
+using Zenject;
 
-public class Clicker : MonoBehaviour
+namespace Core
 {
-    [SerializeField] [Min(1)] private int m_Damage;
-
-    private Camera m_Camera;
-
-    private void Awake()
+    public class Clicker : MonoBehaviour
     {
-        m_Camera = Camera.main;
-    }
+        [SerializeField] [Min(1)] private int m_Damage;
 
-    private void Update()
-    {
-        if (Game.IsPaused) return;
-        if (!Game.IsPlaying) return;
-        if (!Input.GetMouseButtonDown(0)) return;
+        private Camera m_Camera;
 
-        if (TryHit(out var damageable)) damageable.TakeDamage(m_Damage);
-    }
-
-    private bool TryHit(out IDamageable damageable)
-    {
-        var mousePos = m_Camera.ScreenToWorldPoint(Input.mousePosition);
-        var hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-        if (hit.collider != null && hit.collider.TryGetComponent<IDamageable>(out var obj))
+        private IStartProvider m_StartProvider;
+        private IPauseProvider m_PauseProvider;
+    
+        [Inject]
+        private void Construct(IStartProvider startProvider, IPauseProvider pauseProvider)
         {
-            damageable = obj;
-            return true;
+            m_StartProvider = startProvider;
+            m_PauseProvider = pauseProvider;
+        }
+    
+        private void Awake()
+        {
+            m_Camera = Camera.main;
         }
 
-        damageable = null;
-        return false;
-    }
+        private void Update()
+        {
+            if (m_PauseProvider.IsPaused) return;
+            if (!m_StartProvider.IsStarted) return;
+            if (!Input.GetMouseButtonDown(0)) return;
 
-    public void AddDamage(int damage)
-    {
-        m_Damage += Mathf.Abs(damage);
+            if (TryHit(out var damageable)) damageable.TakeDamage(m_Damage);
+        }
+
+        private bool TryHit(out IDamageable damageable)
+        {
+            var mousePos = m_Camera.ScreenToWorldPoint(Input.mousePosition);
+            var hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null && hit.collider.TryGetComponent<IDamageable>(out var obj))
+            {
+                damageable = obj;
+                return true;
+            }
+
+            damageable = null;
+            return false;
+        }
+
+        public void AddDamage(int damage)
+        {
+            m_Damage += Mathf.Abs(damage);
+        }
     }
 }

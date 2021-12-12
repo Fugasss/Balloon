@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public static class ArrayExtension
+namespace Extensions
 {
-    public static T GetRandom<T>(this T[] array)
+    public static class ArrayExtension
     {
-        return array[Random.Range(0, array.Length)];
+        public static T GetRandom<T>(this T[] array)
+        {
+            return array[Random.Range(0, array.Length)];
+        }
     }
 }

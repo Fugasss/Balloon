@@ -1,24 +1,43 @@
-﻿using UnityEngine;
+﻿using Core;
+using FallingObject;
+using Player;
+using UnityEngine;
+using Zenject;
 
-public class BonusSpawner : Spawner<BonusBase>
+namespace Spawners
 {
-    protected override void OnEnable()
+    public class BonusSpawner : Spawner<BonusBase>
     {
-        base.OnEnable();
-        BonusBase.OutOfBounds += ReturnInPool;
-        BonusBase.Destroy += ReturnInPool;
-    }
+        private Clicker m_Clicker;
+        private PlayerHealth m_PlayerHealth;
+        
+        [Inject]
+        private void Construct(Clicker clicker, PlayerHealth playerHealth)
+        {
+            m_Clicker = clicker;
+            m_PlayerHealth = playerHealth;
+        }
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            ObjectPool.InvokeForAll(x =>
+            {
+                switch (x)
+                {
+                    case BonusDamage bonusDamage:
+                        bonusDamage.Construct(m_Clicker);
+                        break;
+                    case BonusHealth bonusHealth:
+                        bonusHealth.Construct(m_PlayerHealth);
+                        break;
+                }
+            });
+        }
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-
-        BonusBase.OutOfBounds -= ReturnInPool;
-        BonusBase.Destroy -= ReturnInPool;
-    }
-
-    protected override Color CalculateColor(int health)
-    {
-        return Color.white;
+        protected override Color CalculateColor(int health)
+        {
+            return Color.white;
+        }
     }
 }

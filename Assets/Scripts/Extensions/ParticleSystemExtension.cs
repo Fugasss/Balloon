@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
-public static class ParticleSystemExtension
+namespace Extensions
 {
-    public static void SetMainColor(this ParticleSystem ps, Color color)
+    public static class ParticleSystemExtension
     {
-        var main = ps.main;
-        main.startColor = color;
+        public static void SetMainColor(this ParticleSystem ps, Color color)
+        {
+            var main = ps.main;
+            main.startColor = color;
+        }
     }
 }

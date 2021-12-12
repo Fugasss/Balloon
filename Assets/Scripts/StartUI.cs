@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Core;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class StartUI : MonoBehaviour
 {
@@ -7,6 +9,14 @@ public class StartUI : MonoBehaviour
 
     private GameObject m_Canvas;
 
+    private IStartProvider m_StartProvider;
+    
+    [Inject]
+    private void Construct(IStartProvider startProvider)
+    {
+        m_StartProvider = startProvider;
+    }
+    
     private void Awake()
     {
         m_Canvas = GetComponentInChildren<Canvas>().gameObject;
@@ -14,18 +24,18 @@ public class StartUI : MonoBehaviour
 
     private void OnEnable()
     {
-        m_StartButton.onClick.AddListener(Game.Begin);
+        m_StartButton.onClick.AddListener(m_StartProvider.Begin);
 
-        Game.Started += DisableCanvas;
-        Game.Ended += EnableCanvas;
+        m_StartProvider.Started += DisableCanvas;
+        m_StartProvider.Ended += EnableCanvas;
     }
 
     private void OnDisable()
     {
-        m_StartButton.onClick.RemoveListener(Game.Begin);
+        m_StartButton.onClick.RemoveListener(m_StartProvider.Begin);
 
-        Game.Started -= DisableCanvas;
-        Game.Ended -= EnableCanvas;
+        m_StartProvider.Started -= DisableCanvas;
+        m_StartProvider.Ended -= EnableCanvas;
     }
 
     private void EnableCanvas()

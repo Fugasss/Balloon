@@ -1,28 +1,29 @@
-public class BonusDamage : BonusBase
+using Core;
+
+namespace FallingObject
 {
-    private Clicker m_Clicker;
-
-    protected override void Awake()
+    public class BonusDamage : BonusBase
     {
-        base.Awake();
+        private Clicker m_Clicker;
 
-        m_Clicker ??= FindObjectOfType<Clicker>();
-    }
+        internal void Construct(Clicker clicker)
+        {
+            m_Clicker = clicker;
+        }
 
-    protected override void AfterDie()
-    {
-        base.AfterDie();
+        protected override void AfterDie()
+        {
+            Use();
+        }
 
-        Use();
-    }
+        public override int GetScore()
+        {
+            return MaxHealth / 5;
+        }
 
-    public override int GetScore()
-    {
-        return MaxHealth / 5;
-    }
-
-    public override void Use()
-    {
-        m_Clicker.AddDamage(1);
+        public override void Use()
+        {
+            m_Clicker.AddDamage(1);
+        }
     }
 }
